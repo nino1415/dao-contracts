@@ -26,6 +26,8 @@ jobs:
     name: Build Gas Benchmarker
     runs-on: ubuntu-latest
     steps:
+      - name: Checkout sources
+        uses: actions/checkout@v3
       - name: Install stable toolchain
         uses: actions-rs/toolchain@v1
         with:
