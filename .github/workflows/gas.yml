@@ -25,9 +25,6 @@ jobs:
   build-gas:
     name: Build Gas Benchmarker
     runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: ./ci/gas_benchmarks
     steps:
       - name: Install stable toolchain
         uses: actions-rs/toolchain@v1
@@ -41,7 +38,7 @@ jobs:
         with:
           toolchain: nightly
           command: build
-          args: --release
+          args: --release --manifest-path=ci/gas_benchmarks/Cargo.toml
       - name: Store binary in cache
         id: contracts-cache
         uses: actions/cache@v1
