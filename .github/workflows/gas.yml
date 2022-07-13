@@ -25,6 +25,9 @@ jobs:
   build-gas:
     name: Build Gas Benchmarker
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./ci/gas_benchmarks
     steps:
       - name: Install stable toolchain
         uses: actions-rs/toolchain@v1
