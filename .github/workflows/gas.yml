@@ -15,12 +15,12 @@ jobs:
         uses: actions/checkout@v3
       - name: Optimize
         run: optimize_workspace.sh
-      - name: Store contracts in cache
-        id: contracts-cache
-        uses: actions/cache@v3
+      - name: Upload contracts
+        uses: actions/upload-artifact@v3
         with:
+          name: dao-dao-contract-artifacts-${{ github.event.number }}
           path: artifacts
-          key: artifacts-contracts
+          retention-days: 1
 
   build-gas:
     name: Build Gas Benchmarker
@@ -41,12 +41,12 @@ jobs:
           toolchain: nightly
           command: build
           args: --release --manifest-path=ci/gas_benchmarks/Cargo.toml
-      - name: Store binary in cache
-        id: gas-cache
-        uses: actions/cache@v3
+      - name: Upload gas binary
+        uses: actions/upload-artifact@v3
         with:
-          path: ci/gas_benchmarks/target/release
-          key: gas-release
+          name: dao-dao-gas-bin-${{ github.event.number }}
+          path: ci/gas_benchmarks/target/release/gas-benchmarks
+          retention-days: 1
 
   calc-gas:
     name: Calculate gas costs in local juno
@@ -72,28 +72,22 @@ jobs:
         run: cd /opt && /opt/setup_and_run.sh $ADMIN_ADDR > /dev/null 2>&1 &
 
       - name: Restore gas binary
-        uses: actions/cache@v3
+        uses: actions/download-artifact@v3
         with:
-          path: ./ci/gas_benchmarks/release
-          key: gas-release
+          name: dao-dao-gas-bin-${{ github.event.number }}
+          path: .
 
-      - name: Restore optimized contracts from cache
-        uses: actions/cache@v3
+      - name: Restore optimized contracts
+        uses: actions/download-artifact@v3
         with:
-          path: ./ci/gas_benchmarks/artifacts
-          key: artifacts-contracts
+          name: dao-dao-contract-artifacts-${{ github.event.number }}
+          path: .
 
-      - name: debug
-        run: pwd
       - name: debug
         run: ls -la
-      - name: debug
-        run: ls -la artifacts
-      - name: debug
-        run: ls -la release
 
       - name: Calculate gas costs
-        run: RUST_LOG=DEBUG CONTRACT_DIR="../artifacts" ./release/gas-benchmarks
+        run: RUST_LOG=DEBUG CONTRACT_DIR="artifacts" ./gas-benchmarks
 
       - name: Raw gas report
         run: cat ./gas_report.json
