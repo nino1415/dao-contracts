@@ -91,7 +91,7 @@ jobs:
         run: ls -la
 
       - name: Calculate gas costs
-        run: RUST_LOG=DEBUG CONTRACT_DIR="artifacts" ./gas-benchmarks
+        run: RUST_LOG=DEBUG CONTRACT_DIR="artifacts" gas-benchmarks
 
       - name: Raw gas report
         run: cat ./gas_report.json
