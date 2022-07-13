@@ -42,7 +42,7 @@ jobs:
           command: build
           args: --release --manifest-path=ci/gas_benchmarks/Cargo.toml
       - name: Store binary in cache
-        id: contracts-cache
+        id: gas-cache
         uses: actions/cache@v1
         with:
           path: target/release/
@@ -62,6 +62,8 @@ jobs:
         STAKE_TOKEN: ujunox
         GAS_LIMIT: -1
         UNSAFE_CORS: true
+        ADMIN_ADDR: juno10j9gpw9t4jsz47qgnkvl5n3zlm2fz72k67rxsg
+        GAS_REPORT_OUT: ./gas_report.json
     steps:
       - name: Checkout sources
         uses: actions/checkout@v3
@@ -70,22 +72,22 @@ jobs:
         run: apk --no-cache add rustup cargo
 
       - name: Setup Juno Node
-        run: cd /opt && /opt/setup_and_run.sh juno10j9gpw9t4jsz47qgnkvl5n3zlm2fz72k67rxsg > /dev/null 2>&1 &
+        run: cd /opt && /opt/setup_and_run.sh $ADMIN_ADDR > /dev/null 2>&1 &
 
       - name: Restore gas binary
         uses: actions/cache@v1
         with:
-          path: ./
+          path: release
           key: gas-release
 
       - name: Restore optimized contracts from cache
         uses: actions/cache@v1
         with:
-          path: ../../artifacts
+          path: artifacts
           key: artifacts-contracts
 
       - name: Calculate gas costs
-        run: RUST_LOG=DEBUG ./gas-benchmarks
+        run: RUST_LOG=DEBUG CONTRACT_DIR="artifacts" ./release/gas-benchmarks
 
       - name: Raw gas report
         run: cat ./gas_report.json
