@@ -46,12 +46,12 @@ jobs:
       - name: debug
         run: ls -la 
       - name: debug
-        run: ls -la target/release
+        run: ls -la ci/gas_benchmarks/target/release
       - name: Store binary in cache
         id: gas-cache
         uses: actions/cache@v1
         with:
-          path: target/release
+          path: ci/gas_benchmarks/target/release
           key: gas-release
 
   calc-gas:
