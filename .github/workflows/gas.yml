@@ -72,13 +72,13 @@ jobs:
         run: cd /opt && /opt/setup_and_run.sh $ADMIN_ADDR > /dev/null 2>&1 &
 
       - name: Restore gas binary
-        uses: actions/cache@v1
+        uses: actions/cache@v3
         with:
           path: ./ci/gas_benchmarks/release
           key: gas-release
 
       - name: Restore optimized contracts from cache
-        uses: actions/cache@v1
+        uses: actions/cache@v3
         with:
           path: ./ci/gas_benchmarks/artifacts
           key: artifacts-contracts
