@@ -86,6 +86,15 @@ jobs:
           path: artifacts
           key: artifacts-contracts
 
+      - name: debug
+        run: pwd
+      - name: debug
+        run: ls -la
+      - name: debug
+        run: ls -la artifacts
+      - name: debug
+        run: ls -la release
+
       - name: Calculate gas costs
         run: RUST_LOG=DEBUG CONTRACT_DIR="artifacts" ./release/gas-benchmarks
 
