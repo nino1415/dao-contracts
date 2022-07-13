@@ -17,7 +17,7 @@ jobs:
         run: optimize_workspace.sh
       - name: Store contracts in cache
         id: contracts-cache
-        uses: actions/cache@v1
+        uses: actions/cache@v3
         with:
           path: artifacts
           key: artifacts-contracts
@@ -41,15 +41,9 @@ jobs:
           toolchain: nightly
           command: build
           args: --release --manifest-path=ci/gas_benchmarks/Cargo.toml
-      - name: debug
-        run: pwd 
-      - name: debug
-        run: ls -la 
-      - name: debug
-        run: ls -la ci/gas_benchmarks/target/release
       - name: Store binary in cache
         id: gas-cache
-        uses: actions/cache@v1
+        uses: actions/cache@v3
         with:
           path: ci/gas_benchmarks/target/release
           key: gas-release
@@ -73,9 +67,6 @@ jobs:
     steps:
       - name: Checkout sources
         uses: actions/checkout@v3
-
-      - name: Install deps
-        run: apk --no-cache add rustup cargo
 
       - name: Setup Juno Node
         run: cd /opt && /opt/setup_and_run.sh $ADMIN_ADDR > /dev/null 2>&1 &
@@ -102,7 +93,7 @@ jobs:
         run: ls -la release
 
       - name: Calculate gas costs
-        run: RUST_LOG=DEBUG CONTRACT_DIR="artifacts" ./release/gas-benchmarks
+        run: RUST_LOG=DEBUG CONTRACT_DIR="../artifacts" ./release/gas-benchmarks
 
       - name: Raw gas report
         run: cat ./gas_report.json
