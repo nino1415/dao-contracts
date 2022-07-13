@@ -75,13 +75,13 @@ jobs:
         uses: actions/download-artifact@v3
         with:
           name: dao-dao-gas-bin-${{ github.event.number }}
-          path: .
+          path: ci/gas_benchmarks
 
       - name: Restore optimized contracts
         uses: actions/download-artifact@v3
         with:
           name: dao-dao-contract-artifacts-${{ github.event.number }}
-          path: .
+          path: ci/gas_benchmarks
 
       - name: debug
         run: ls -la
