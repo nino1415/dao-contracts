@@ -81,7 +81,10 @@ jobs:
       #     path: ci/gas_benchmarks/artifacts
 
       - name: Debug
-        run: ls -la
+        run: ls -la ci/gas_benchmarks
+
+      - name: Debug
+        run: ls -la ci/gas_benchmarks/gas-benchmarks
 
       - name: chmod gas bin
         run: chmod a+rx ci/gas_benchmarks/gas-benchmarks
