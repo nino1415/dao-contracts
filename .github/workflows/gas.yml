@@ -25,6 +25,8 @@ jobs:
   build-gas:
     name: Build Gas Benchmarker
     runs-on: ubuntu-latest
+    container:
+      image: alpine:3.15
     steps:
       - name: Checkout sources
         uses: actions/checkout@v3
@@ -69,7 +71,7 @@ jobs:
         run: cd /opt && /opt/setup_and_run.sh $ADMIN_ADDR > /dev/null 2>&1 &
 
       - name: Restore gas binary
-        uses: actions/download-artifact@v1
+        uses: actions/download-artifact@v3
         with:
           name: dao-dao-gas-bin-${{ github.event.number }}
           path: ci/gas_benchmarks/release/
@@ -90,14 +92,13 @@ jobs:
         run: chmod +x ./ci/gas_benchmarks/release/gas-benchmarks
 
       - name: Debug
-        run:  ls -la /__w/dao-contracts/dao-contracts/ci/gas_benchmarks/release/gas-benchmarks
+        run:  ls -la ./ci/gas_benchmarks/release/gas-benchmarks
 
       - name: Debug
         run: pwd
 
-
       - name: Calculate gas costs
-        run: /__w/dao-contracts/dao-contracts/ci/gas_benchmarks/release/gas-benchmarks &
+        run: ./ci/gas_benchmarks/release/gas-benchmarks
 
       - name: Raw gas report
         run: cat ./ci/gas_benchmarks/gas_report.json
