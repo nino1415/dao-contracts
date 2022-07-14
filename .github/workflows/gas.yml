@@ -83,7 +83,7 @@ jobs:
         run: chmod +x ci/gas_benchmarks/gas-benchmarks
 
       - name: Calculate gas costs
-        run: RUST_LOG=DEBUG CONTRACT_DIR="artifacts" ./ci/gas_benchmarks/gas-benchmarks
+        run: RUST_LOG=DEBUG CONTRACT_DIR="ci/gas_benchmarks/artifacts" ./ci/gas_benchmarks/gas-benchmarks
 
       - name: Raw gas report
         run: cat ./ci/gas_benchmarks/gas_report.json
