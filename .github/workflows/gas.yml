@@ -30,12 +30,15 @@ jobs:
     steps:
       - name: Checkout sources
         uses: actions/checkout@v3
-      - name: Install stable toolchain
-        uses: actions-rs/toolchain@v1.0.6
-        with:
-          profile: minimal
-          toolchain: stable
-          override: true
+      # NOTE: This doesnt work in alpine
+      #- name: Install stable toolchain
+      #  uses: actions-rs/toolchain@v1.0.6
+      #  with:
+      #    profile: minimal
+      #    toolchain: stable
+      #    override: true
+      - name: Install Rustup
+        run: apk update && apk add rustup
       - name: Create binary
         uses: actions-rs/cargo@v1
         with:
