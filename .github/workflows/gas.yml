@@ -88,13 +88,16 @@ jobs:
 
       - name: chmod gas bin
         run: chmod +x ./ci/gas_benchmarks/gas-benchmarks
+      
+      - name: Debug
+        run: mv ./ci/gas_benchmarks/gas-benchmarks ./ci/gas_benchmarks/gas
 
       - name: Debug
-        run: ls -la ./ci/gas_benchmarks/gas-benchmarks
+        run: ls -la ./ci/gas_benchmarks/gas
 
       # why am i getting a not found error consistently? when the other run commands work with the same path?
       - name: Calculate gas costs
-        run: cd ci/gas_benchmarks && ./gas-benchmarks
+        run: ./ci/gas_benchmarks/gas
 
       - name: Raw gas report
         run: cat ./ci/gas_benchmarks/gas_report.json
