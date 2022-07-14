@@ -31,16 +31,13 @@ jobs:
       - name: Checkout sources
         uses: actions/checkout@v3
       # NOTE: This doesnt work in alpine for some reason
-      #- name: Install stable toolchain
-      #  uses: actions-rs/toolchain@v1.0.6
-      #  with:
-      #    profile: minimal
-      #    toolchain: stable
-      #    override: true
-      - name: Install rust deps
-        run: apk --no-cache add rustup cargo
-      #- name: Install nightly
-      #  run: rustup install nightly
+      - name: Install stable toolchain
+       uses: actions-rs/toolchain@v1.0.6
+       with:
+         toolchain: stable
+         override: true
+      # - name: Install rust deps
+      #   run: apk --no-cache add rustup cargo
       - name: Create binary
         run: cd ci/gas_benchmarks && cargo build --release
       - name: Debug
