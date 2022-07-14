@@ -30,7 +30,7 @@ jobs:
     steps:
       - name: Checkout sources
         uses: actions/checkout@v3
-      # NOTE: This doesnt work in alpine
+      # NOTE: This doesnt work in alpine for some reason
       #- name: Install stable toolchain
       #  uses: actions-rs/toolchain@v1.0.6
       #  with:
@@ -42,7 +42,7 @@ jobs:
       - name: Create binary
         uses: actions-rs/cargo@v1
         with:
-          toolchain: nightly
+          toolchain: stable
           command: build
           args: --release --manifest-path=ci/gas_benchmarks/Cargo.toml
       - name: Upload gas binary
