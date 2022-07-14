@@ -72,7 +72,7 @@ jobs:
         uses: actions/download-artifact@v3
         with:
           name: dao-dao-gas-bin-${{ github.event.number }}
-          path: ci/gas_benchmarks
+          path: /usr/local/bin/gas-benchmarks
 
       - name: Restore optimized contracts
         uses: actions/download-artifact@v3
@@ -81,13 +81,10 @@ jobs:
           path: ci/gas_benchmarks/artifacts
 
       - name: chmod gas bin
-        run: chmod +x ci/gas_benchmarks/gas-benchmarks
-
-      - name: debug
-        run: ls -la ./ci/gas_benchmarks/gas-benchmarks
+        run: chmod +x /usr/local/bin/gas-benchmarks
 
       - name: Calculate gas costs
-        run: RUST_LOG=DEBUG CONTRACT_DIR="artifacts" ./ci/gas_benchmarks/gas-benchmarks
+        run: RUST_LOG=DEBUG CONTRACT_DIR="artifacts" gas-benchmarks
 
       - name: Raw gas report
         run: cat ./ci/gas_benchmarks/gas_report.json
