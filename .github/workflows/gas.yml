@@ -92,8 +92,11 @@ jobs:
       - name: Debug
         run:  ls -la ./ci/gas_benchmarks/release/gas-benchmarks
 
+      - name: Debug
+        run: pwd
+
       - name: Calculate gas costs
-        run: ./ci/gas_benchmarks/release/gas-benchmarks
+        run: cd && ./ci/gas_benchmarks/release/gas-benchmarks
 
       - name: Raw gas report
         run: cat ./ci/gas_benchmarks/gas_report.json
