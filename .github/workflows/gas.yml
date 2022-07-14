@@ -90,13 +90,13 @@ jobs:
         run: chmod +x ./ci/gas_benchmarks/release/gas-benchmarks
 
       - name: Debug
-        run:  ls -la ./ci/gas_benchmarks/release/gas-benchmarks
+        run:  ls -la /__w/dao-contracts/dao-contracts/ci/gas_benchmarks/release/gas-benchmarks
 
       - name: Debug
         run: pwd
 
       - name: Calculate gas costs
-        run: cd && ./ci/gas_benchmarks/release/gas-benchmarks
+        run: /__w/dao-contracts/dao-contracts/ci/gas_benchmarks/release/gas-benchmarks
 
       - name: Raw gas report
         run: cat ./ci/gas_benchmarks/gas_report.json
