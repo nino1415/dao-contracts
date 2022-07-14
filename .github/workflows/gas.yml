@@ -81,13 +81,13 @@ jobs:
       #     path: ci/gas_benchmarks/artifacts
 
       - name: Debug
-        run: ls -la ci/gas_benchmarks
+        run: ls -la ./ci/gas_benchmarks
 
       - name: Debug
-        run: ls -la ci/gas_benchmarks/gas-benchmarks
+        run: ls -la ./ci/gas_benchmarks/gas-benchmarks
 
       - name: chmod gas bin
-        run: chmod a+rx ci/gas_benchmarks/gas-benchmarks
+        run: chmod 777 ./ci/gas_benchmarks/gas-benchmarks
 
       # why isnt gas-benchmarks in the path?
       - name: Calculate gas costs
