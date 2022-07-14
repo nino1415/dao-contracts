@@ -42,7 +42,7 @@ jobs:
           command: build
           args: --release --manifest-path=ci/gas_benchmarks/Cargo.toml
       - name: Upload gas binary
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           name: dao-dao-gas-bin-${{ github.event.number }}
           path: ci/gas_benchmarks/target/release/gas-benchmarks
@@ -69,10 +69,10 @@ jobs:
         run: cd /opt && /opt/setup_and_run.sh $ADMIN_ADDR > /dev/null 2>&1 &
 
       - name: Restore gas binary
-        uses: actions/download-artifact@v2
+        uses: actions/download-artifact@v3
         with:
           name: dao-dao-gas-bin-${{ github.event.number }}
-          path: /usr/local/bin/gas-benchmarks
+          path: /usr/local/bin/
 
       # - name: Restore optimized contracts
       #   uses: actions/download-artifact@v3
@@ -80,18 +80,18 @@ jobs:
       #     name: dao-dao-contract-artifacts-${{ github.event.number }}
       #     path: ci/gas_benchmarks/artifacts
 
+      - name: Debug
+        run: ls -la
+
       - name: chmod gas bin
         run: chmod a+rx /usr/local/bin/gas-benchmarks
-
-      - name: whoami
-        run: whoami
 
       - name: Debug
         run: ls -la /usr/local/bin/
 
       # why isnt gas-benchmarks in the path?
       - name: Calculate gas costs
-        run: RUST_LOG=DEBUG CONTRACT_DIR="artifacts" /usr/local/bin/gas-benchmarks
+        run: RUST_LOG=DEBUG CONTRACT_DIR="artifacts" gas-benchmarks
 
       - name: Raw gas report
         run: cat ./ci/gas_benchmarks/gas_report.json
