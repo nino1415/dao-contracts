@@ -86,11 +86,9 @@ jobs:
       - name: Debug
         run: ls -la /usr/local/bin/
 
-      - name: which
-        run: which gas-benchmarks
-
+      # why isnt gas-benchmarks in the path?
       - name: Calculate gas costs
-        run: RUST_LOG=DEBUG CONTRACT_DIR="artifacts" gas-benchmarks
+        run: RUST_LOG=DEBUG CONTRACT_DIR="artifacts" /usr/local/bin/gas-benchmarks
 
       - name: Raw gas report
         run: cat ./ci/gas_benchmarks/gas_report.json
