@@ -37,10 +37,8 @@ jobs:
       #    profile: minimal
       #    toolchain: stable
       #    override: true
-      - name: Install Rustup
-        run: apk update && apk add rustup
-      - name: Run rustup
-        run: rustup update
+      - name: Install rust deps
+        run: apk --no-cache add rustup cargo
       - name: Create binary
         uses: actions-rs/cargo@v1
         with:
