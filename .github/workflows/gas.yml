@@ -40,11 +40,7 @@ jobs:
       - name: Install rust deps
         run: apk --no-cache add rustup cargo
       - name: Create binary
-        uses: actions-rs/cargo@v1
-        with:
-          toolchain: stable
-          command: build
-          args: --release --manifest-path=ci/gas_benchmarks/Cargo.toml
+        run: cargo build --release --manifest-path=ci/gas_benchmarks/Cargo.toml
       - name: Upload gas binary
         uses: actions/upload-artifact@v3
         with:
