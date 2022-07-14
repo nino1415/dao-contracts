@@ -45,7 +45,7 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: dao-dao-gas-bin-${{ github.event.number }}
-          path: ci/gas_benchmarks/target/release/gas-benchmarks
+          path: ci/gas_benchmarks/target/release/
           retention-days: 1
 
   calc-gas:
@@ -72,7 +72,7 @@ jobs:
         uses: actions/download-artifact@v3
         with:
           name: dao-dao-gas-bin-${{ github.event.number }}
-          path: ci/gas_benchmarks/
+          path: ci/gas_benchmarks/release/
 
       # - name: Restore optimized contracts
       #   uses: actions/download-artifact@v3
@@ -84,20 +84,16 @@ jobs:
         run: ls -la ./ci/gas_benchmarks
 
       - name: Debug
-        run: ls -la ./ci/gas_benchmarks/gas-benchmarks
+        run: ls -la ./ci/gas_benchmarks/release
 
       - name: chmod gas bin
-        run: chmod +x ./ci/gas_benchmarks/gas-benchmarks
-      
-      - name: Debug
-        run: mv ./ci/gas_benchmarks/gas-benchmarks ./ci/gas_benchmarks/gas
+        run: chmod +x ./ci/gas_benchmarks/release/gas-benchmarks
 
       - name: Debug
-        run: ls -la ./ci/gas_benchmarks/gas
+        run:  ls -la ./ci/gas_benchmarks/release/gas-benchmarks
 
-      # why am i getting a not found error consistently? when the other run commands work with the same path?
       - name: Calculate gas costs
-        run: ./ci/gas_benchmarks/gas
+        run: ./ci/gas_benchmarks/release/gas-benchmarks
 
       - name: Raw gas report
         run: cat ./ci/gas_benchmarks/gas_report.json
