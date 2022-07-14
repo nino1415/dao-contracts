@@ -84,7 +84,7 @@ jobs:
         run: ls -la ./ci/gas_benchmarks
 
       - name: Debug
-        run: ls -la ./ci/gas_benchmarks/gas-benchmarks/
+        run: ls -la ./ci/gas_benchmarks/gas-benchmarks
 
       - name: chmod gas bin
         run: chmod +x ./ci/gas_benchmarks/gas-benchmarks
