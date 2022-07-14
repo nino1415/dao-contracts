@@ -89,9 +89,12 @@ jobs:
       - name: chmod gas bin
         run: chmod +x ./ci/gas_benchmarks/gas-benchmarks
 
+      - name: Debug
+        run: ls -la ./ci/gas_benchmarks/gas-benchmarks
+
       # why isnt gas-benchmarks in the path?
       - name: Calculate gas costs
-        run: sudo ./ci/gas_benchmarks/gas-benchmarks
+        run: ./ci/gas_benchmarks/gas-benchmarks
 
       - name: Raw gas report
         run: cat ./ci/gas_benchmarks/gas_report.json
