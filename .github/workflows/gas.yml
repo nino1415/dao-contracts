@@ -72,7 +72,7 @@ jobs:
         uses: actions/download-artifact@v3
         with:
           name: dao-dao-gas-bin-${{ github.event.number }}
-          path: /usr/local/bin/
+          path: ci/gas_benchmarks/
 
       # - name: Restore optimized contracts
       #   uses: actions/download-artifact@v3
@@ -84,14 +84,11 @@ jobs:
         run: ls -la
 
       - name: chmod gas bin
-        run: chmod a+rx /usr/local/bin/gas-benchmarks
-
-      - name: Debug
-        run: ls -la /usr/local/bin/
+        run: chmod a+rx ci/gas_benchmarks/gas-benchmarks
 
       # why isnt gas-benchmarks in the path?
       - name: Calculate gas costs
-        run: RUST_LOG=DEBUG CONTRACT_DIR="artifacts" gas-benchmarks
+        run: RUST_LOG=DEBUG CONTRACT_DIR="artifacts" ./ci/gas_benchmarks/gas-benchmarks
 
       - name: Raw gas report
         run: cat ./ci/gas_benchmarks/gas_report.json
