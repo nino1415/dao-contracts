@@ -92,9 +92,9 @@ jobs:
       - name: Debug
         run: ls -la ./ci/gas_benchmarks/gas-benchmarks
 
-      # why isnt gas-benchmarks in the path?
+      # why am i getting a not found error consistently? when the other run commands work with the same path?
       - name: Calculate gas costs
-        run: ./ci/gas_benchmarks/gas-benchmarks
+        run: cd ci/gas_benchmarks && ./gas-benchmarks
 
       - name: Raw gas report
         run: cat ./ci/gas_benchmarks/gas_report.json
