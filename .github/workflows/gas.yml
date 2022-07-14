@@ -5,22 +5,22 @@ name: Gas Benchmark
 # TODO: Make this actually a diff, rn its just posting the current PR's gas usage
 
 jobs:
-  # compile-contracts:
-  #   name: Compile contracts using optimized rust compiler
-  #   runs-on: ubuntu-latest
-  #   container:
-  #     image: cosmwasm/workspace-optimizer:0.12.6
-  #   steps:
-  #     - name: Checkout sources
-  #       uses: actions/checkout@v3
-  #     - name: Optimize
-  #       run: optimize_workspace.sh
-  #     - name: Upload contracts
-  #       uses: actions/upload-artifact@v3
-  #       with:
-  #         name: dao-dao-contract-artifacts-${{ github.event.number }}
-  #         path: artifacts
-  #         retention-days: 1
+  compile-contracts:
+    name: Compile contracts using optimized rust compiler
+    runs-on: ubuntu-latest
+    container:
+      image: cosmwasm/workspace-optimizer:0.12.6
+    steps:
+      - name: Checkout sources
+        uses: actions/checkout@v3
+      - name: Optimize
+        run: optimize_workspace.sh
+      - name: Upload contracts
+        uses: actions/upload-artifact@v3
+        with:
+          name: dao-dao-contract-artifacts-${{ github.event.number }}
+          path: artifacts
+          retention-days: 1
 
   build-gas:
     name: Build Gas Benchmarker
@@ -50,7 +50,7 @@ jobs:
   calc-gas:
     name: Calculate gas costs in local juno
     runs-on: ubuntu-latest
-    needs: build-gas #[compile-contracts, build-gas]
+    needs: [compile-contracts, build-gas]
     env:
       ADMIN_ADDR: juno10j9gpw9t4jsz47qgnkvl5n3zlm2fz72k67rxsg
       GAS_REPORT_OUT: ./gas_report.json
@@ -70,11 +70,11 @@ jobs:
           name: dao-dao-gas-bin-${{ github.event.number }}
           path: ci/gas_benchmarks/
 
-      # - name: Restore optimized contracts
-      #   uses: actions/download-artifact@v3
-      #   with:
-      #     name: dao-dao-contract-artifacts-${{ github.event.number }}
-      #     path: ci/gas_benchmarks/artifacts
+      - name: Restore optimized contracts
+        uses: actions/download-artifact@v3
+        with:
+          name: dao-dao-contract-artifacts-${{ github.event.number }}
+          path: ci/gas_benchmarks/artifacts
 
       - name: Debug
         run: ls -la ci/gas_benchmarks/gas-benchmarks
@@ -83,7 +83,7 @@ jobs:
         run: chmod +x ci/gas_benchmarks/gas-benchmarks
 
       - name: Calculate gas costs
-        run: ./ci/gas_benchmarks/gas-benchmarks
+        run: RUST_LOG=DEBUG CONTRACT_DIR="artifacts" ./ci/gas_benchmarks/gas-benchmarks
 
       - name: Raw gas report
         run: cat ./ci/gas_benchmarks/gas_report.json
