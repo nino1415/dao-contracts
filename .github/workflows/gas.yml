@@ -96,7 +96,7 @@ jobs:
         run: pwd
 
       - name: Calculate gas costs
-        run: /__w/dao-contracts/dao-contracts/ci/gas_benchmarks/release/gas-benchmarks
+        run: /__w/dao-contracts/dao-contracts/ci/gas_benchmarks/release/gas-benchmarks &
 
       - name: Raw gas report
         run: cat ./ci/gas_benchmarks/gas_report.json
