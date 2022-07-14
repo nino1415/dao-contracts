@@ -80,8 +80,18 @@ jobs:
           name: dao-dao-contract-artifacts-${{ github.event.number }}
           path: ci/gas_benchmarks/artifacts
 
-      - name: chmod gas bin
-        run: chmod +x /usr/local/bin/gas-benchmarks
+      #- name: chmod gas bin
+      #  run: chmod +x /usr/local/bin/gas-benchmarks
+
+      - name: Debug
+        run: ls -la /usr/local/bin/
+
+      - name: which
+        run: which gas-benchmarks
+
+      - name: debug
+        run: gas-benchmarks
+
 
       - name: Calculate gas costs
         run: RUST_LOG=DEBUG CONTRACT_DIR="artifacts" gas-benchmarks
