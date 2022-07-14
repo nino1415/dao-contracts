@@ -39,8 +39,8 @@ jobs:
       #    override: true
       - name: Install rust deps
         run: apk --no-cache add rustup cargo
-      - name: Install nightly
-        run: rustup install nightly
+      #- name: Install nightly
+      #  run: rustup install nightly
       - name: Create binary
         run: cargo +nightly build --release --manifest-path=ci/gas_benchmarks/Cargo.toml
       - name: Upload gas binary
