@@ -83,6 +83,9 @@ jobs:
       - name: chmod gas bin
         run: chmod a+rx /usr/local/bin/gas-benchmarks
 
+      - name: whoami
+        run: whoami
+
       - name: Debug
         run: ls -la /usr/local/bin/
 
