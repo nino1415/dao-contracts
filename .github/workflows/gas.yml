@@ -44,7 +44,7 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: dao-dao-gas-bin-${{ github.event.number }}
-          path: ci/gas_benchmarks/target/release/
+          path: ci/gas_benchmarks/target/release/gas-benchmarks
           retention-days: 1
 
   calc-gas:
@@ -58,12 +58,9 @@ jobs:
       - name: Checkout sources
         uses: actions/checkout@v3
 
-      - name: Install rust deps
-        run: apk --no-cache add rustup cargo
-
       # TODO: This is dumb, but:
-      # * We cant run this node as a `service` because services cant have custom entrypoint overrides
-      # * We cant run this as a container of the job, because juno image uses alpine which cant compile `cw-core-macros` for some fun reason
+      # * We cant run this juno node as a `service` because services cant have custom entrypoint overrides
+      # * We cant run this juno node as a container of the job, because juno image uses alpine which cant compile `cw-core-macros` for some fun reason
       - name: Run Local Juno Node
         run: docker run --rm -d --name juno \
           -e PASSWORD=xxxxxxxxx \
@@ -77,7 +74,7 @@ jobs:
         uses: actions/download-artifact@v3
         with:
           name: dao-dao-gas-bin-${{ github.event.number }}
-          path: ci/gas_benchmarks/release/
+          path: ci/gas_benchmarks/
 
       # - name: Restore optimized contracts
       #   uses: actions/download-artifact@v3
@@ -85,8 +82,14 @@ jobs:
       #     name: dao-dao-contract-artifacts-${{ github.event.number }}
       #     path: ci/gas_benchmarks/artifacts
 
+      - name: Debug
+        run: ls -la ci/gas_benchmarks/gas-benchmarks
+
+      - name: Fix gas bin perms
+        run: chmod +x ci/gas_benchmarks/gas-benchmarks
+
       - name: Calculate gas costs
-        run: ./ci/gas_benchmarks/release/gas-benchmarks
+        run: ./ci/gas_benchmarks/gas-benchmarks
 
       - name: Raw gas report
         run: cat ./ci/gas_benchmarks/gas_report.json
