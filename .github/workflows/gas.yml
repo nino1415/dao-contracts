@@ -77,7 +77,7 @@ jobs:
           path: ci/gas_benchmarks/artifacts
 
       - name: Debug
-        run: ls -la ci/gas_benchmarks/gas-benchmarks
+        run: ls -la ci/gas_benchmarks/artifacts
 
       - name: Fix gas bin perms
         run: chmod +x ci/gas_benchmarks/gas-benchmarks
