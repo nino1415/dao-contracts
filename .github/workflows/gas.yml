@@ -39,6 +39,8 @@ jobs:
       #    override: true
       - name: Install Rustup
         run: apk update && apk add rustup
+      - name: Run rustup
+        run: rustup update
       - name: Create binary
         uses: actions-rs/cargo@v1
         with:
