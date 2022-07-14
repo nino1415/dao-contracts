@@ -36,7 +36,6 @@ jobs:
           profile: minimal
           toolchain: nightly
           override: true
-          components: rustfmt, clippy
       - name: Create binary
         uses: actions-rs/cargo@v1
         with:
